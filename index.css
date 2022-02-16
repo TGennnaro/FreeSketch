@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap');
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --grey: #919191;
+    --lgrey: #ececec;
+    --blue: rgb(0, 140, 255);
+    --smallest-pt: 2px;
+}
+
+body {
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+*:not(i) {
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'Lato', sans-serif;
+}
+
+#main-container {
+    width: 100vw;
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+}
+
+#main-container::-webkit-scrollbar {
+    display: none;
+}
+
+#canvas {
+    width: calc(100vw - 80px);
+    height: 200vh;
+    position: relative;
+}
+
+.toolbar {
+    display: flex;
+    padding: 30px 0;
+    border-bottom: 1px solid lightgrey;
+}
+
+.toolbar-section {
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.toolbar-section:not(:first-child) {
+    border-left: 1px solid lightgrey;
+}
+
+.toolbar-section > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.toolbar-section > div > * {
+    margin: 0 10px;
+}
+
+.toolbar-section-title {
+    color: grey;
+    font-size: 0.8rem;
+}
+
+.toolbar-tool {
+    position: relative;
+    padding: 0.5rem;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.toolbar-tool::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.toolbar-tool:hover::after {
+    background: rgb(236, 236, 236);
+}
+
+.toolbar-draw-tool {
+    border-bottom: 2px solid black;
+    transition: transform 200ms ease-out;
+}
+
+.selected-tool {
+    transform: translateY(10px);
+    border-bottom: 2px solid var(--blue);
+}
+
+.selected-tool:hover::after {
+    background: none;
+}
+
+.selected-tool i {
+    color: var(--blue);
+}
+
+.scroll-container {
+    background: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-left: 1px solid lightgrey;
+}
+
+.scroll-button {
+    width: 100%;
+    aspect-ratio: 1;
+    margin: 3px 0;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    color: var(--grey);
+    cursor: pointer;
+}
+
+.scroll-button:hover {
+    background: var(--lgrey);
+}
+
+.scroll-progress {
+    background: var(--grey);
+    width: 2px;
+    height: 60%;
+    position: relative;
+}
+
+#scroll-thumb {
+    background: var(--grey);
+    width: 10px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.canvas-cursor {
+    position: absolute;
+    aspect-ratio: 1;
+    z-index: 100;
+    pointer-events: none;
+    border: 2px solid ;
+    border-radius: 50%;
+}
+
+.toolbar-width-picker {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
+    grid-auto-flow: row;
+    row-gap: 5px;
+    column-gap: 10px;
+    padding: 5px;
+    background: lightgrey;
+    border-radius: 5px;
+}
+
+.toolbar-width-picker div {
+    width: 28px;
+    aspect-ratio: 1;
+    background: white;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.selector-head {
+    width: 100px;
+    height: 35px;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: rgb(70, 70, 70);
+    border: 1px solid currentColor;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.selector-head input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.selector-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid lightgrey;
+    border-bottom: none;
+    list-style: none;
+    animation: dropdown-close 200ms ease-out;
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: opacity 100ms ease-out, transform 200ms ease-out;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.selector-head input:checked + .selector-options {
+    transition: opacity 300ms ease-out, transform 200ms ease-out;
+    transform: translateY(2px);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.selector-head i {
+    pointer-events: none;
+    transition: transform 200ms ease;
+}
+
+.selector-head input:checked ~ i {
+    transform: rotate(180deg);
+}
+
+.selector-options li {
+    padding: 15px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid lightgrey;
+    color: rgb(99, 99, 99);
+}
+
+.selector-options li:hover {
+    background: rgb(230, 230, 230);
+}

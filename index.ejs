@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/fa/css/all.min.css">
+    <script src="/js/util.js" defer></script>
+    <script src="/js/script.js" defer></script>
+    <title><%=title%></title>
+</head>
+    <body>
+        <!--<ul>
+            <% for (const [k,v] of Object.entries(JSON.parse(users))) {%>
+                <li><%=v.name%></li>
+            <%}%>
+        </ul>
+        <span id="users"><%=users%></span>
+        <% if (typeof err != 'undefined') { %>
+            <span><%=err%></span>
+        <%}%>-->
+        <div class="toolbar">
+            <div class="toolbar-section">
+                <span class="toolbar-section-title">Draw Tools</span>
+                <div>
+                    <button id="pencil-tool" class="toolbar-tool toolbar-draw-tool selected-tool" onclick="selectTool(this)"><i class="fa fa-pencil-alt fa-2x"></i></button>
+                    <button id="highlighter-tool" class="toolbar-tool toolbar-draw-tool" onclick="selectTool(this)"><i class="fa fa-highlighter fa-2x"></i></button>
+                    <button id="eraser-tool" class="toolbar-tool toolbar-draw-tool" onclick="selectTool(this)"><i class="fa fa-eraser fa-2x"></i></button>
+                </div>
+            </div>
+            <div class="toolbar-section">
+                <span class="toolbar-section-title">Draw Styles</span>
+                <div>
+                    <input type="color" oninput="setColor(this);">
+                    <div class="selector-head" value="3px" onchange="setLineWidth(this);">
+                        <span></span>
+                        <input type="checkbox" name="" id="">
+                        <ul class="selector-options">
+                            <li>2px</li>
+                            <li>3px</li>
+                            <li>4px</li>
+                            <li>5px</li>
+                            <li>6px</li>
+                        </ul>
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar-section">
+                <span class="toolbar-section-title">Canvas Tools</span>
+                <div>
+                    <button id="clear-canvas" class="toolbar-tool" onclick="clearCanvas();"><i class="fa fa-refresh fa-2x"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="main-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="scroll-container">
+            <div>
+                <button class="scroll-button" onmousedown="beginScroll(false);" onmouseup="stopScroll();" onmouseout="stopScroll();"><i class="fa fa-chevron-up fa-2x"></i></button>
+                <button class="scroll-button" onmousedown="beginScroll(false, 3);" onmouseup="stopScroll();" onmouseout="stopScroll();"><i class="fa fa-long-arrow-alt-up fa-2x"></i></button>
+                <button class="scroll-button" onclick="scrollToTop()"><i class="fa fa-angle-double-up fa-2x"></i></button>
+            </div>
+            <div class="scroll-progress">
+                <div id="scroll-thumb"></div>
+            </div>
+            <div>
+                <button class="scroll-button" onclick="scrollToBottom()"><i class="fa fa-angle-double-down fa-2x"></i></button>
+                <button class="scroll-button" onmousedown="beginScroll(true, 3);" onmouseup="stopScroll();" onmouseout="stopScroll();"><i class="fa fa-long-arrow-alt-down fa-2x"></i></button>
+                <button class="scroll-button" onmousedown="beginScroll(true);" onmouseup="stopScroll();" onmouseout="stopScroll();"><i class="fa fa-chevron-down fa-2x"></i></button>
+            </div>
+        </div>
+    </body>
+</html>
