@@ -9,6 +9,8 @@
 :root {
     --grey: #919191;
     --lgrey: #ececec;
+    --blue: rgb(0, 140, 255);
+    --smallest-pt: 2px;
 }
 
 body {
@@ -59,6 +61,10 @@ body {
     height: 100%;
 }
 
+.toolbar-section > div > * {
+    margin: 0 10px;
+}
+
 .toolbar-section-title {
     color: grey;
     font-size: 0.8rem;
@@ -66,7 +72,6 @@ body {
 
 .toolbar-tool {
     position: relative;
-    margin: 0 4px;
     padding: 0.5rem;
     background: none;
     outline: none;
@@ -96,7 +101,7 @@ body {
 
 .selected-tool {
     transform: translateY(10px);
-    border-bottom: 2px solid rgb(0, 140, 255);
+    border-bottom: 2px solid var(--blue);
 }
 
 .selected-tool:hover::after {
@@ -104,7 +109,7 @@ body {
 }
 
 .selected-tool i {
-    color: rgb(0, 140, 255);
+    color: var(--blue);
 }
 
 .scroll-container {
@@ -161,6 +166,95 @@ body {
     aspect-ratio: 1;
     z-index: 100;
     pointer-events: none;
-    border: 2px solid rgb(0, 140, 255);
+    border: 2px solid ;
     border-radius: 50%;
+}
+
+.toolbar-width-picker {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
+    grid-auto-flow: row;
+    row-gap: 5px;
+    column-gap: 10px;
+    padding: 5px;
+    background: lightgrey;
+    border-radius: 5px;
+}
+
+.toolbar-width-picker div {
+    width: 28px;
+    aspect-ratio: 1;
+    background: white;
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.selector-head {
+    width: 100px;
+    height: 35px;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: rgb(70, 70, 70);
+    border: 1px solid currentColor;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.selector-head input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.selector-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid lightgrey;
+    border-bottom: none;
+    list-style: none;
+    animation: dropdown-close 200ms ease-out;
+    transform: translateY(-30px);
+    opacity: 0;
+    transition: opacity 100ms ease-out, transform 200ms ease-out;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.selector-head input:checked + .selector-options {
+    transition: opacity 300ms ease-out, transform 200ms ease-out;
+    transform: translateY(2px);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.selector-head i {
+    pointer-events: none;
+    transition: transform 200ms ease;
+}
+
+.selector-head input:checked ~ i {
+    transform: rotate(180deg);
+}
+
+.selector-options li {
+    padding: 15px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid lightgrey;
+    color: rgb(99, 99, 99);
+}
+
+.selector-options li:hover {
+    background: rgb(230, 230, 230);
 }

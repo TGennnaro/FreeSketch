@@ -11,7 +11,66 @@ const MAX_HEIGHT = 10000;
 
 function init() {
     initCanvas();
+    initSelectors();
     console.log("Frontend JS initialized");
+}
+
+HTMLElement.prototype.val = function(value) {
+    if (this.classList.contains("selector-head")) {
+        if (value == null) {
+            return this.getAttribute("value");
+        } else {
+            this.setAttribute("value", value);
+            this.childTag("SPAN")[0].textContent = value;
+        }
+    }
+}
+
+function initSelectors() {
+    const windowEvent = function(e) {
+        for (let head of cl("selector-head")) {
+            if (head.childTag("INPUT")[0] != e.target) {
+                head.childTag("INPUT")[0].checked = false;
+            }
+        }
+    }
+    window.removeEventListener("click", windowEvent);
+    window.addEventListener("click", windowEvent);
+
+    for (let head of cl("selector-head")) {
+        if (head.attr("value") == "") {
+            head.val(head.childClass("selector-options")[0].children[0].textContent);
+        } else {
+            head.val(head.attr("value"));
+        }
+
+        for (let option of head.childClass("selector-options")[0].children) {
+            option.addEventListener("click", function() {
+                head.val(this.textContent);
+                head.onchange(head);
+            });
+            option.addEventListener("touchstart", function() {
+                head.val(this.textContent);
+                head.onchange(head);
+            });
+        }
+    }
+}
+
+HTMLElement.prototype.createSelector = function(options, def) {
+    const head = el("div").class("selector-head");
+    const span = head.el("span");
+    const check = head.el("input").attr("type", "checkbox");
+    const optionsList = head.el("ul").class("selector-options");
+    for (let option of options) {
+        const opt = optionsList.el("li").text(option);
+    }
+    const arrow = head.el("i").class("gg-chevron-down")
+    this.appendChild(head);
+    check.style.height = head.clientHeight+"px";
+    head.attr("value", (def != null ? def : options[0]));
+    initSelectors();
+    return head;
 }
 
 function initCanvas() {
@@ -73,6 +132,7 @@ function initCanvas() {
     }
 
     global.drawColor = "#000000";
+    global.lineWidth = 3;
     global.drawTool = "pencil";
     global.highlightSize = 30;
     function draw(e) {
@@ -96,7 +156,7 @@ function initCanvas() {
         // Formatting
 
         ctx.globalCompositeOperation = "source-over";
-        ctx.lineWidth = 5;
+        ctx.lineWidth = global.lineWidth;
         ctx.lineCap = "round";
         ctx.globalAlpha = 1;
         if (global.drawTool == "eraser") {
@@ -137,6 +197,12 @@ function selectTool(button) {
 
 function setColor(picker) {
     global.drawColor = picker.value;
+}
+
+function setLineWidth(el) {
+    const str = el.val();
+    global.lineWidth = parseInt(str.substring(0, str.length-1));
+    console.log(global.lineWidth)
 }
 
 function clearCanvas() {
